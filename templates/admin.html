@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeadlockDrop — Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Requests</a>
+      <a href="/admin" class="active">Admin</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>ADMIN PANEL</h1>
+    <p>// manage feature requests · update statuses · track the roadmap</p>
+  </div>
+
+  <div class="feed">
+    {% for f in features %}
+    <div class="card">
+      <div class="vote">
+        <div class="vote-count">{{ f.votes }}</div>
+        <div class="vote-label">votes</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">{{ f.title }}</div>
+        <div class="card-desc">{{ f.description }}</div>
+        <div class="card-meta" style="margin-bottom: 10px;">
+          <span class="status {{ f.status }}">{{ f.status }}</span>
+          <span class="divider"></span>
+          <span class="category">{{ f.category }}</span>
+        </div>
+        <form action="/update_status/{{ f.id }}" method="POST" class="status-form">
+          <select name="status">
+            <option value="requested" {% if f.status == 'requested' %}selected{% endif %}>Requested</option>
+            <option value="planned" {% if f.status == 'planned' %}selected{% endif %}>Planned</option>
+            <option value="added" {% if f.status == 'added' %}selected{% endif %}>Added</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

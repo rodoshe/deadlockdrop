@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ feature.title }} — DeadlockDrop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/requests">Requests</a>
+      {% if session.username %}
+        <a href="/profile">{{ session.username }}</a>
+        <a href="/logout">Logout</a>
+      {% else %}
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="feature-detail">
+    <a href="/requests" class="back-link">← Back to requests</a>
+    <div class="card" style="margin-top: 16px;">
+      <div class="vote">
+        <a href="/upvote/{{ feature.id }}" class="vote-btn">▲</a>
+        <div class="vote-count">{{ feature.votes }}</div>
+        <div class="vote-label">votes</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">{{ feature.title }}</div>
+        <div class="card-desc">{{ feature.description }}</div>
+        <div class="card-meta">
+          <span class="status {{ feature.status }}">{{ feature.status }}</span>
+          <span class="divider"></span>
+          <span class="category">{{ feature.category }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <div class="comments-label">// {{ comments|length }} comments</div>
+      {% if session.username %}
+      <form action="/comment/{{ feature.id }}" method="POST" class="comment-form">
+        <textarea name="body" placeholder="Leave a comment..." required></textarea>
+        <button type="submit">Post Comment</button>
+      </form>
+      {% else %}
+      <p class="login-prompt"><a href="/login">Login</a> to leave a comment.</p>
+      {% endif %}
+      {% for c in comments %}
+      <div class="comment-card">
+        <div class="comment-meta">
+          <span class="comment-user">{{ c.username }}</span>
+          <span class="comment-time">{{ c.created_at }}</span>
+        </div>
+        <div class="comment-body">{{ c.body }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

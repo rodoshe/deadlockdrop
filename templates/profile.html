@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Profile — DeadlockDrop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/requests">Requests</a>
+      <a href="/profile" class="active">{{ session.username }}</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </header>
+
+  <div class="feature-detail">
+    <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #e8d5b8; letter-spacing: 2px; margin-bottom: 4px;">{{ session.username }}</h1>
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a5040; margin-bottom: 28px;">// your activity on deadlockdrop</p>
+
+    <div class="comments-label">// features you voted for ({{ voted_features|length }})</div>
+    {% for f in voted_features %}
+    <div class="card" style="margin-bottom: 8px;">
+      <div class="vote">
+        <div class="vote-count">{{ f.votes }}</div>
+        <div class="vote-label">votes</div>
+      </div>
+      <div class="card-body">
+        <a href="/feature/{{ f.id }}" class="card-title">{{ f.title }}</a>
+        <div class="card-meta" style="margin-top: 6px;">
+          <span class="status {{ f.status }}">{{ f.status }}</span>
+          <span class="divider"></span>
+          <span class="category">{{ f.category }}</span>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="comments-label" style="margin-top: 24px;">// your comments ({{ comments|length }})</div>
+    {% for c in comments %}
+    <div class="comment-card">
+      <div class="comment-meta">
+        <span class="comment-time">{{ c.created_at }}</span>
+      </div>
+      <div class="comment-body">{{ c.body }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

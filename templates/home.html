@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeadlockDrop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+  <a href="/" class="active">Home</a>
+  <a href="/requests">Requests</a>
+  <a href="/admin">Admin</a>
+  {% if session.username %}
+    <a href="/profile">{{ session.username }}</a>
+    <a href="/logout">Logout</a>
+  {% else %}
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+  {% endif %}
+</nav>
+    </nav>
+  </header>
+
+  <div class="hp-hero">
+    <div class="hp-hero-inner">
+      <div class="hp-eyebrow">// community feedback platform</div>
+      <h1>SHAPE THE<br><span>FUTURE OF</span><br>DEADLOCK</h1>
+      <p>Submit feature requests, vote on what matters most, and watch Valve respond. Built by the community, for the community.</p>
+      <div class="hp-cta">
+        <a href="/requests" class="hp-btn">View Requests</a>
+        <a href="/requests#submit" class="hp-btn-outline">Submit Idea</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hp-stats">
+    <div class="hp-stat">
+      <div class="hp-stat-num">{{ total_requests }}</div>
+      <div class="hp-stat-label">Total Requests</div>
+    </div>
+    <div class="hp-stat">
+      <div class="hp-stat-num">{{ total_votes }}</div>
+      <div class="hp-stat-label">Total Votes Cast</div>
+    </div>
+    <div class="hp-stat">
+      <div class="hp-stat-num">{{ added_count }}</div>
+      <div class="hp-stat-label">Features Added</div>
+    </div>
+  </div>
+
+  <div class="hp-top">
+    <div class="hp-top-label">// top requested right now</div>
+    {% for f in top_features %}
+    <div class="hp-top-card {% if loop.first %}highlighted{% endif %}">
+      <div class="hp-top-rank">#{{ loop.index }}</div>
+      <div class="hp-top-body">
+        <div class="hp-top-title">{{ f.title }}</div>
+        <div class="hp-top-votes">{{ f.votes }} votes</div>
+      </div>
+      <span class="status {{ f.status }}">{{ f.status }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+</body>
+</html>

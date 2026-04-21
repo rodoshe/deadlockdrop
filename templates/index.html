@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeadlockDrop — Requests</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/requests" class="active">Requests</a>
+      <a href="/admin">Admin</a>
+      {% if session.username %}
+        <a href="/profile">{{ session.username }}</a>
+        <a href="/logout">Logout</a>
+      {% else %}
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="hero" id="submit">
+    <h1>WHAT SHOULD VALVE PATCH NEXT?</h1>
+    <p>// submit ideas · upvote what matters · valve is watching</p>
+    <form action="/submit" method="POST" class="submit-form">
+      <input type="text" name="title" placeholder="Feature title..." required />
+      <textarea name="description" placeholder="Describe your idea..." required></textarea>
+      <div class="form-row">
+        <select name="category">
+          <option value="heroes">Heroes</option>
+          <option value="mechanics">Mechanics</option>
+          <option value="ranked">Ranked</option>
+          <option value="map">Map</option>
+          <option value="items">Items</option>
+          <option value="ui/ux">UI/UX</option>
+          <option value="general">General</option>
+        </select>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toolbar">
+    <form action="/requests" method="GET" class="search-form">
+      <input type="hidden" name="category" value="{{ active_category }}" />
+      <input type="text" name="search" value="{{ search }}" placeholder="Search requests..." class="search-input" />
+      <select name="sort" onchange="this.form.submit()" class="sort-select">
+        <option value="votes" {% if sort == 'votes' %}selected{% endif %}>Most Voted</option>
+        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+        <option value="planned" {% if sort == 'planned' %}selected{% endif %}>Planned First</option>
+      </select>
+      <button type="submit" class="search-btn">Search</button>
+    </form>
+  </div>
+
+  <div class="filters">
+    <a href="/requests?category=all&sort={{ sort }}" class="tag {% if active_category == 'all' %}active{% endif %}">All</a>
+    <a href="/requests?category=heroes&sort={{ sort }}" class="tag {% if active_category == 'heroes' %}active{% endif %}">Heroes</a>
+    <a href="/requests?category=mechanics&sort={{ sort }}" class="tag {% if active_category == 'mechanics' %}active{% endif %}">Mechanics</a>
+    <a href="/requests?category=ranked&sort={{ sort }}" class="tag {% if active_category == 'ranked' %}active{% endif %}">Ranked</a>
+    <a href="/requests?category=map&sort={{ sort }}" class="tag {% if active_category == 'map' %}active{% endif %}">Map</a>
+    <a href="/requests?category=items&sort={{ sort }}" class="tag {% if active_category == 'items' %}active{% endif %}">Items</a>
+    <a href="/requests?category=ui/ux&sort={{ sort }}" class="tag {% if active_category == 'ui/ux' %}active{% endif %}">UI/UX</a>
+  </div>
+
+  <div class="feed">
+    {% for f in features %}
+    <div class="card">
+      <div class="vote">
+        <a href="/upvote/{{ f.id }}" class="vote-btn">▲</a>
+        <div class="vote-count">{{ f.votes }}</div>
+        <div class="vote-label">votes</div>
+      </div>
+      <div class="card-body">
+        <a href="/feature/{{ f.id }}" class="card-title">{{ f.title }}</a>
+        <div class="card-desc">{{ f.description }}</div>
+        <div class="card-meta">
+          <span class="status {{ f.status }}">{{ f.status }}</span>
+          <span class="divider"></span>
+          <span class="category">{{ f.category }}</span>
+          <span class="divider"></span>
+          <a href="/feature/{{ f.id }}" class="comment-count">{{ comment_counts[f.id] }} comments</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
