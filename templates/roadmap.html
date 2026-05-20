@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roadmap — DeadlockDrop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    .roadmap-hero { background: #0e0d0b; padding: 40px 24px 32px; border-bottom: 1px solid #2a2420; }
+    .roadmap-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: #e8d5b8; letter-spacing: 3px; margin-bottom: 6px; }
+    .roadmap-hero p { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5a5040; letter-spacing: 1px; }
+    .kanban { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 24px; }
+    .kanban-col { background: #0e0d0b; border: 1px solid #2a2420; border-radius: 2px; padding: 16px; }
+    .kanban-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #2a2420; }
+    .kanban-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; }
+    .kanban-title.requested { color: #5a5040; }
+    .kanban-title.planned { color: #4a8fa8; }
+    .kanban-title.added { color: #4a8f60; }
+    .kanban-count { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3a3228; background: #1a1712; padding: 2px 8px; border-radius: 2px; }
+    .kanban-card { background: #161410; border: 1px solid #2a2420; border-radius: 2px; padding: 12px; margin-bottom: 8px; transition: border-color 0.2s; }
+    .kanban-card:hover { border-color: #d4a96a; }
+    .kanban-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: #e8d5b8; letter-spacing: 1px; margin-bottom: 6px; text-decoration: none; display: block; }
+    .kanban-card-title:hover { color: #d4a96a; }
+    .kanban-card-meta { display: flex; gap: 8px; align-items: center; }
+    .kanban-votes { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #d4a96a; }
+    .kanban-category { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #3a3228; text-transform: uppercase; letter-spacing: 1px; }
+    .kanban-empty { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3a3228; text-align: center; padding: 24px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/requests">Requests</a>
+      <a href="/roadmap" class="active">Roadmap</a>
+      <a href="/about">About</a>
+      {% if session.username == 'admin' %}
+        <a href="/admin">Admin</a>
+      {% endif %}
+      {% if session.username %}
+        <a href="/profile">{{ session.username }}</a>
+        <a href="/logout">Logout</a>
+      {% else %}
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="roadmap-hero">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #d4a96a; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px;">// public roadmap</div>
+    <h1>WHAT WE'RE WORKING ON</h1>
+    <p>// track feature requests from submission to added · updated in real time</p>
+  </div>
+
+  <div class="kanban">
+    <div class="kanban-col">
+      <div class="kanban-header">
+        <div class="kanban-title requested">REQUESTED</div>
+        <div class="kanban-count">{{ requested|length }}</div>
+      </div>
+      {% if requested %}
+        {% for f in requested %}
+        <div class="kanban-card">
+          <a href="/feature/{{ f.id }}" class="kanban-card-title">{{ f.title }}</a>
+          <div class="kanban-card-meta">
+            <span class="kanban-votes">▲ {{ f.votes }}</span>
+            <span class="kanban-category">{{ f.category }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="kanban-empty">// no requests yet</div>
+      {% endif %}
+    </div>
+
+    <div class="kanban-col">
+      <div class="kanban-header">
+        <div class="kanban-title planned">PLANNED</div>
+        <div class="kanban-count">{{ planned|length }}</div>
+      </div>
+      {% if planned %}
+        {% for f in planned %}
+        <div class="kanban-card">
+          <a href="/feature/{{ f.id }}" class="kanban-card-title">{{ f.title }}</a>
+          <div class="kanban-card-meta">
+            <span class="kanban-votes">▲ {{ f.votes }}</span>
+            <span class="kanban-category">{{ f.category }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="kanban-empty">// nothing planned yet</div>
+      {% endif %}
+    </div>
+
+    <div class="kanban-col">
+      <div class="kanban-header">
+        <div class="kanban-title added">ADDED</div>
+        <div class="kanban-count">{{ added|length }}</div>
+      </div>
+      {% if added %}
+        {% for f in added %}
+        <div class="kanban-card">
+          <a href="/feature/{{ f.id }}" class="kanban-card-title">{{ f.title }}</a>
+          <div class="kanban-card-meta">
+            <span class="kanban-votes">▲ {{ f.votes }}</span>
+            <span class="kanban-category">{{ f.category }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="kanban-empty">// nothing shipped yet</div>
+      {% endif %}
+    </div>
+  </div>
+
+</body>
+</html>

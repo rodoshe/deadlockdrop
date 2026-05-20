@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Deadlock — DeadlockDrop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+.about-hero { background: #0e0d0b; padding: 64px 24px 56px; border-bottom: 1px solid #2a2420; text-align: center; background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, #1a1712 40px, #1a1712 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, #1a1712 40px, #1a1712 41px); }
+.about-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: #e8d5b8; letter-spacing: 3px; margin-bottom: 10px; }
+.about-hero p { font-size: 14px; color: #6a5f50; max-width: 560px; line-height: 1.7; margin: 0 auto; }
+.about-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #d4a96a; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; }
+.about-section { padding: 48px 24px; border-bottom: 1px solid #1a1712; text-align: center; }
+.about-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #e8d5b8; letter-spacing: 2px; margin-bottom: 12px; }
+.about-section p { font-size: 13px; color: #8a7a66; line-height: 1.8; max-width: 620px; margin: 0 auto; }
+.stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 32px; justify-content: center; }
+.stat-box { background: #161410; border: 1px solid #2a2420; border-top: 2px solid #d4a96a; border-radius: 2px; padding: 24px 32px; min-width: 140px; text-align: center; }
+.stat-box .num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: #d4a96a; }
+.stat-box .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a5040; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a5040; text-transform: uppercase; letter-spacing: 2px; text-align: center; padding: 40px 24px 8px; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #e8d5b8; letter-spacing: 2px; text-align: center; margin-bottom: 32px; }
+.heroes-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; padding: 16px 48px 48px; max-width: 1100px; margin: 0 auto; }
+.hero-card { background: #161410; border: 1px solid #2a2420; border-radius: 2px; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+.hero-card:hover { border-color: #d4a96a; transform: translateY(-4px); }
+.hero-card a { display: block; }
+.hero-card a img { display: block; width: 100%; height: 180px; object-fit: cover; object-position: center; background: #1a1712; }
+.hero-card-body { padding: 14px; }
+.hero-name { font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: #e8d5b8; letter-spacing: 1px; margin-bottom: 8px; }
+.hero-abilities { display: flex; flex-direction: column; gap: 4px; }
+.hero-ability { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a5040; padding-left: 8px; border-left: 2px solid #2a2420; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/requests">Requests</a>
+      <a href="/roadmap">Roadmap</a>
+      <a href="/about" class="active">About</a>
+      {% if session.username %}
+        <a href="/profile">{{ session.username }}</a>
+        <a href="/logout">Logout</a>
+      {% else %}
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="about-hero">
+    <div class="about-eyebrow">// valve corporation · in development</div>
+    <h1>ABOUT DEADLOCK</h1>
+    <p>Deadlock is Valve's 6v6 third-person shooter MOBA set in an alternate urban fantasy version of New York City. Two teams of six heroes battle across three lanes, pushing their troopers toward the enemy Patron — a possessed effigy — while using a mix of gunplay, abilities, and items to dominate.</p>
+  </div>
+
+  <div class="about-section">
+    <div class="about-eyebrow">// the basics</div>
+    <h2>HOW IT PLAYS</h2>
+    <p>Each match pits two teams of six against each other across a three-lane map. Players earn souls — the in-game currency — by farming troopers and killing enemies, which they use to purchase items from three categories: Weapon, Vitality, and Spirit. Heroes each carry a unique weapon and four abilities, with upgrades unlocked as the match progresses. The goal is to push through lanes, take down Guardians and Walkers, and destroy the enemy Patron.</p>
+    <div class="stat-row">
+      <div class="stat-box"><div class="num">6v6</div><div class="lbl">Players per match</div></div>
+      <div class="stat-box"><div class="num">3</div><div class="lbl">Lanes</div></div>
+      <div class="stat-box"><div class="num">38</div><div class="lbl">Heroes available</div></div>
+      <div class="stat-box"><div class="num">4</div><div class="lbl">Abilities per hero</div></div>
+    </div>
+  </div>
+
+  <div class="section-label">// the roster</div>
+
+  <div class="heroes-grid">
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Abrams" target="_blank"><img src="{{ url_for('static', filename='heroes/abrams.png') }}" alt="Abrams"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">ABRAMS</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Siphon Life</div>
+          <div class="hero-ability">Seismic Impact</div>
+          <div class="hero-ability">Infernal Resilience</div>
+          <div class="hero-ability">Rampage</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Apollo" target="_blank"><img src="{{ url_for('static', filename='heroes/apollo.png') }}" alt="Apollo"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">APOLLO</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Blessing</div>
+          <div class="hero-ability">Slowing Radiance</div>
+          <div class="hero-ability">Inspiring Aura</div>
+          <div class="hero-ability">Sanctum</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Bebop" target="_blank"><img src="{{ url_for('static', filename='heroes/bebop.png') }}" alt="Bebop"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">BEBOP</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Hook</div>
+          <div class="hero-ability">Sticky Bomb</div>
+          <div class="hero-ability">Hyper Beam</div>
+          <div class="hero-ability">Upper Cut</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Billy" target="_blank"><img src="{{ url_for('static', filename='heroes/billy.png') }}" alt="Billy"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">BILLY</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Headbutt</div>
+          <div class="hero-ability">Sunder</div>
+          <div class="hero-ability">Paradrop</div>
+          <div class="hero-ability">Stampede</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Calico" target="_blank"><img src="{{ url_for('static', filename='heroes/calico.png') }}" alt="Calico"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">CALICO</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Nine Lives</div>
+          <div class="hero-ability">Leash</div>
+          <div class="hero-ability">Hex Claws</div>
+          <div class="hero-ability">Catlike</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Celeste" target="_blank"><img src="{{ url_for('static', filename='heroes/celeste.png') }}" alt="Celeste"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">CELESTE</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Holy Bolt</div>
+          <div class="hero-ability">Astral Form</div>
+          <div class="hero-ability">Divine Barrier</div>
+          <div class="hero-ability">Expunge</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/The_Doorman" target="_blank"><img src="{{ url_for('static', filename='heroes/doorman.png') }}" alt="The Doorman"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">THE DOORMAN</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Revolving Door</div>
+          <div class="hero-ability">Hotel Guest</div>
+          <div class="hero-ability">Doorway</div>
+          <div class="hero-ability">Concierge</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Drifter" target="_blank"><img src="{{ url_for('static', filename='heroes/drifter.png') }}" alt="Drifter"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">DRIFTER</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Bloodscent</div>
+          <div class="hero-ability">Relocate</div>
+          <div class="hero-ability">Grapple Shot</div>
+          <div class="hero-ability">Frenzy</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Dynamo" target="_blank"><img src="{{ url_for('static', filename='heroes/dynamo.png') }}" alt="Dynamo"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">DYNAMO</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Kinetic Pulse</div>
+          <div class="hero-ability">Quantum Entanglement</div>
+          <div class="hero-ability">Rejuvenating Aurora</div>
+          <div class="hero-ability">Singularity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Graves" target="_blank"><img src="{{ url_for('static', filename='heroes/graves.png') }}" alt="Graves"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">GRAVES</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Bullet Armor</div>
+          <div class="hero-ability">Siege Cannon</div>
+          <div class="hero-ability">Fortify</div>
+          <div class="hero-ability">Artillery Strike</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Grey_Talon" target="_blank"><img src="{{ url_for('static', filename='heroes/grey_talon.png') }}" alt="Grey Talon"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">GREY TALON</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Charged Shot</div>
+          <div class="hero-ability">Guided Owl</div>
+          <div class="hero-ability">Rain of Arrows</div>
+          <div class="hero-ability">Immobilizing Trap</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Haze" target="_blank"><img src="{{ url_for('static', filename='heroes/haze.png') }}" alt="Haze"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">HAZE</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Smoke Bomb</div>
+          <div class="hero-ability">Fixation</div>
+          <div class="hero-ability">Sleep Dagger</div>
+          <div class="hero-ability">Bullet Dance</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Holliday" target="_blank"><img src="{{ url_for('static', filename='heroes/holliday.png') }}" alt="Holliday"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">HOLLIDAY</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Lasso</div>
+          <div class="hero-ability">Dynamite Toss</div>
+          <div class="hero-ability">Expert Rider</div>
+          <div class="hero-ability">Deadeye</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Infernus" target="_blank"><img src="{{ url_for('static', filename='heroes/infernus.png') }}" alt="Infernus"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">INFERNUS</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Concussive Combustion</div>
+          <div class="hero-ability">Catalyst</div>
+          <div class="hero-ability">Flame Dash</div>
+          <div class="hero-ability">Afterburn</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Ivy" target="_blank"><img src="{{ url_for('static', filename='heroes/ivy.png') }}" alt="Ivy"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">IVY</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Kudzu Bomb</div>
+          <div class="hero-ability">Watcher's Covenant</div>
+          <div class="hero-ability">Stone Form</div>
+          <div class="hero-ability">Air Drop</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Kelvin" target="_blank"><img src="{{ url_for('static', filename='heroes/kelvin.png') }}" alt="Kelvin"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">KELVIN</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Arctic Beam</div>
+          <div class="hero-ability">Ice Path</div>
+          <div class="hero-ability">Frost Grenade</div>
+          <div class="hero-ability">Frozen Shelter</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Lady_Geist" target="_blank"><img src="{{ url_for('static', filename='heroes/lady_geist.png') }}" alt="Lady Geist"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">LADY GEIST</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Life Drain</div>
+          <div class="hero-ability">Essence Bomb</div>
+          <div class="hero-ability">Malice</div>
+          <div class="hero-ability">Soul Exchange</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Lash" target="_blank"><img src="{{ url_for('static', filename='heroes/lash.png') }}" alt="Lash"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">LASH</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Ground Strike</div>
+          <div class="hero-ability">Grapple</div>
+          <div class="hero-ability">Flog</div>
+          <div class="hero-ability">Death Slam</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/McGinnis" target="_blank"><img src="{{ url_for('static', filename='heroes/mcginnis.png') }}" alt="McGinnis"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">MCGINNIS</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Mini Turret</div>
+          <div class="hero-ability">Spectral Wall</div>
+          <div class="hero-ability">Heavy Barrage</div>
+          <div class="hero-ability">Medicinal Specter</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Mirage" target="_blank"><img src="{{ url_for('static', filename='heroes/mirage.png') }}" alt="Mirage"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">MIRAGE</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Fire Scarabs</div>
+          <div class="hero-ability">Djinn's Mark</div>
+          <div class="hero-ability">Tornado</div>
+          <div class="hero-ability">Traveler</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Mina" target="_blank"><img src="{{ url_for('static', filename='heroes/mina.png') }}" alt="Mina"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">MINA</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Vampire's Kiss</div>
+          <div class="hero-ability">Bat Form</div>
+          <div class="hero-ability">Crimson Feast</div>
+          <div class="hero-ability">Night's Rest</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Mo_%26_Krill" target="_blank"><img src="{{ url_for('static', filename='heroes/mo_krill.png') }}" alt="Mo and Krill"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">MO & KRILL</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Scorn</div>
+          <div class="hero-ability">Burrow</div>
+          <div class="hero-ability">Sand Blast</div>
+          <div class="hero-ability">Combo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Paige" target="_blank"><img src="{{ url_for('static', filename='heroes/paige.png') }}" alt="Paige"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">PAIGE</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Papercut</div>
+          <div class="hero-ability">Animate Pages</div>
+          <div class="hero-ability">Bookmark</div>
+          <div class="hero-ability">Story Time</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Paradox" target="_blank"><img src="{{ url_for('static', filename='heroes/paradox.png') }}" alt="Paradox"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">PARADOX</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Pulse Grenade</div>
+          <div class="hero-ability">Kinetic Carbine</div>
+          <div class="hero-ability">Paradoxical Swap</div>
+          <div class="hero-ability">Time Wall</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Pocket" target="_blank"><img src="{{ url_for('static', filename='heroes/pocket.png') }}" alt="Pocket"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">POCKET</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Barrage</div>
+          <div class="hero-ability">Flying Cloak</div>
+          <div class="hero-ability">Enchanter's Satchel</div>
+          <div class="hero-ability">Affliction</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Rem" target="_blank"><img src="{{ url_for('static', filename='heroes/rem.png') }}" alt="Rem"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">REM</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Slumber</div>
+          <div class="hero-ability">Dream Snare</div>
+          <div class="hero-ability">Pillow Fort</div>
+          <div class="hero-ability">Nightmare</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Seven" target="_blank"><img src="{{ url_for('static', filename='heroes/seven.png') }}" alt="Seven"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">SEVEN</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Static Charge</div>
+          <div class="hero-ability">Lightning Ball</div>
+          <div class="hero-ability">Power Surge</div>
+          <div class="hero-ability">Storm Cloud</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Shiv" target="_blank"><img src="{{ url_for('static', filename='heroes/shiv.png') }}" alt="Shiv"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">SHIV</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Slice and Dice</div>
+          <div class="hero-ability">Bloodletting</div>
+          <div class="hero-ability">Serrated Knives</div>
+          <div class="hero-ability">Killing Blow</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Silver" target="_blank"><img src="{{ url_for('static', filename='heroes/silver.png') }}" alt="Silver"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">SILVER</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Ricochet</div>
+          <div class="hero-ability">Quick Draw</div>
+          <div class="hero-ability">Fan the Hammer</div>
+          <div class="hero-ability">High Noon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Sinclair" target="_blank"><img src="{{ url_for('static', filename='heroes/sinclair.png') }}" alt="Sinclair"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">SINCLAIR</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Rabbit Hex</div>
+          <div class="hero-ability">Disappearing Act</div>
+          <div class="hero-ability">Spectral Assistant</div>
+          <div class="hero-ability">Grand Illusion</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Venator" target="_blank"><img src="{{ url_for('static', filename='heroes/venator.png') }}" alt="Venator"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">VENATOR</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Predator Sense</div>
+          <div class="hero-ability">Pounce</div>
+          <div class="hero-ability">Howl</div>
+          <div class="hero-ability">Pack Leader</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Victor" target="_blank"><img src="{{ url_for('static', filename='heroes/victor.png') }}" alt="Victor"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">VICTOR</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Adrenaline Rush</div>
+          <div class="hero-ability">Serum Toss</div>
+          <div class="hero-ability">Injection</div>
+          <div class="hero-ability">Juggernaut</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Vindicta" target="_blank"><img src="{{ url_for('static', filename='heroes/vindicta.png') }}" alt="Vindicta"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">VINDICTA</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Stake</div>
+          <div class="hero-ability">Crow Familiar</div>
+          <div class="hero-ability">Flight</div>
+          <div class="hero-ability">Assassinate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Viscous" target="_blank"><img src="{{ url_for('static', filename='heroes/viscous.png') }}" alt="Viscous"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">VISCOUS</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Splatter</div>
+          <div class="hero-ability">The Cube</div>
+          <div class="hero-ability">Puddle Punch</div>
+          <div class="hero-ability">Goo Ball</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Vyper" target="_blank"><img src="{{ url_for('static', filename='heroes/vyper.png') }}" alt="Vyper"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">VYPER</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Venom Bite</div>
+          <div class="hero-ability">Slither</div>
+          <div class="hero-ability">Constrict</div>
+          <div class="hero-ability">Venomous Fury</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Warden" target="_blank"><img src="{{ url_for('static', filename='heroes/warden.png') }}" alt="Warden"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">WARDEN</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Alchemical Flask</div>
+          <div class="hero-ability">Willpower</div>
+          <div class="hero-ability">Binding Word</div>
+          <div class="hero-ability">Last Stand</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Wraith" target="_blank"><img src="{{ url_for('static', filename='heroes/wraith.png') }}" alt="Wraith"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">WRAITH</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Card Trick</div>
+          <div class="hero-ability">Telekinesis</div>
+          <div class="hero-ability">Full Auto</div>
+          <div class="hero-ability">Project Mind</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <a href="https://deadlock.wiki/Yamato" target="_blank"><img src="{{ url_for('static', filename='heroes/yamato.png') }}" alt="Yamato"/></a>
+      <div class="hero-card-body">
+        <div class="hero-name">YAMATO</div>
+        <div class="hero-abilities">
+          <div class="hero-ability">Power Slash</div>
+          <div class="hero-ability">Flying Strike</div>
+          <div class="hero-ability">Shadow Transformation</div>
+          <div class="hero-ability">Crimson Slash</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

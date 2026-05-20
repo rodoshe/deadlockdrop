@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Forgot Password — DeadlockDrop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/requests">Requests</a>
+      <a href="/roadmap">Roadmap</a>
+    </nav>
+  </header>
+  <div class="auth-page">
+    <div class="auth-card">
+      <h1>FORGOT PASSWORD</h1>
+      {% if message %}
+        <div class="auth-error" style="border-color: #1a4a28; color: #4a8f60; background: #121a14;">{{ message }}</div>
+      {% endif %}
+      <form action="/forgot" method="POST" class="auth-form">
+        <input type="email" name="email" placeholder="Your email address" required />
+        <button type="submit">Send Reset Link</button>
+      </form>
+      <p class="auth-switch"><a href="/login">Back to login</a></p>
+    </div>
+  </div>
+</body>
+</html>

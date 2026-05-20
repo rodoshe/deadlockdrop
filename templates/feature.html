@@ -11,16 +11,21 @@
   <header>
     <div class="logo">DEADLOCK<span>DROP</span></div>
     <nav>
-      <a href="/">Home</a>
-      <a href="/requests">Requests</a>
-      {% if session.username %}
-        <a href="/profile">{{ session.username }}</a>
-        <a href="/logout">Logout</a>
-      {% else %}
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-      {% endif %}
-    </nav>
+  <a href="/">Home</a>
+  <a href="/requests">Requests</a>
+  <a href="/roadmap">Roadmap</a>
+  <a href="/about">About</a>
+  {% if session.username == 'admin' %}
+    <a href="/admin">Admin</a>
+  {% endif %}
+  {% if session.username %}
+    <a href="/profile">{{ session.username }}</a>
+    <a href="/logout">Logout</a>
+  {% else %}
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+  {% endif %}
+</nav>
   </header>
 
   <div class="feature-detail">

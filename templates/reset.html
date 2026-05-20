@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reset Password — DeadlockDrop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">DEADLOCK<span>DROP</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/requests">Requests</a>
+      <a href="/roadmap">Roadmap</a>
+    </nav>
+  </header>
+  <div class="auth-page">
+    <div class="auth-card">
+      <h1>RESET PASSWORD</h1>
+      {% if error %}<div class="auth-error">{{ error }}</div>{% endif %}
+      <form action="/reset/{{ token }}" method="POST" class="auth-form">
+        <input type="password" name="password" placeholder="New password" required />
+        <button type="submit">Reset Password</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

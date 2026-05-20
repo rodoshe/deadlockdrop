@@ -10,40 +10,55 @@
 <body>
   <header>
     <div class="logo">DEADLOCK<span>DROP</span></div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/requests" class="active">Requests</a>
-      <a href="/admin">Admin</a>
-      {% if session.username %}
-        <a href="/profile">{{ session.username }}</a>
-        <a href="/logout">Logout</a>
-      {% else %}
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-      {% endif %}
-    </nav>
+   <nav>
+  <a href="/">Home</a>
+  <a href="/requests">Requests</a>
+  <a href="/roadmap">Roadmap</a>
+  <a href="/about">About</a>
+  {% if session.username == 'admin' %}
+    <a href="/admin">Admin</a>
+  {% endif %}
+  {% if session.username %}
+    <a href="/profile">{{ session.username }}</a>
+    <a href="/logout">Logout</a>
+  {% else %}
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+  {% endif %}
+</nav>
   </header>
 
-  <div class="hero" id="submit">
-    <h1>WHAT SHOULD VALVE PATCH NEXT?</h1>
-    <p>// submit ideas · upvote what matters · valve is watching</p>
-    <form action="/submit" method="POST" class="submit-form">
-      <input type="text" name="title" placeholder="Feature title..." required />
-      <textarea name="description" placeholder="Describe your idea..." required></textarea>
-      <div class="form-row">
-        <select name="category">
-          <option value="heroes">Heroes</option>
-          <option value="mechanics">Mechanics</option>
-          <option value="ranked">Ranked</option>
-          <option value="map">Map</option>
-          <option value="items">Items</option>
-          <option value="ui/ux">UI/UX</option>
-          <option value="general">General</option>
-        </select>
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  </div>
+ {% if session.username %}
+<div class="hero" id="submit">
+  <h1>WHAT SHOULD DEADLOCK PATCH NEXT?</h1>
+  <p>// submit ideas · upvote what matters</p>
+  <form action="/submit" method="POST" class="submit-form">
+    <input type="text" name="title" placeholder="Feature title..." required />
+    <textarea name="description" placeholder="Describe your idea..." required></textarea>
+    <div class="form-row">
+      <select name="category">
+        <option value="heroes">Heroes</option>
+        <option value="mechanics">Mechanics</option>
+        <option value="ranked">Ranked</option>
+        <option value="map">Map</option>
+        <option value="items">Items</option>
+        <option value="ui/ux">UI/UX</option>
+        <option value="general">General</option>
+      </select>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+{% else %}
+<div class="hero" id="submit">
+  <h1>WHAT SHOULD DEADLOCK PATCH NEXT?</h1>
+  <p>// submit ideas · upvote what matters</p>
+  <p style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5a5040; margin-top: 8px;">
+    <a href="/login" style="color: #d4a96a; text-decoration: none;">Login</a> or 
+    <a href="/register" style="color: #d4a96a; text-decoration: none;">register</a> to submit an idea.
+  </p>
+</div>
+{% endif %}
 
   <div class="toolbar">
     <form action="/requests" method="GET" class="search-form">
