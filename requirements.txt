@@ -2,3 +2,4 @@ flask
 flask-mail
 werkzeug
 gunicorn
+psycopg2-binary
