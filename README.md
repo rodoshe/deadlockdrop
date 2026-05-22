@@ -25,4 +25,4 @@ A community-driven feature request platform for Valve's game Deadlock. Players c
 - **Version Control** — Git, GitHub
 
 ## Live Site
-[deadlockdrop.com] [www.deadlockdrop.com] [https://deadlockdrop.com]
+[www.deadlockdrop.com] [https://deadlockdrop.com]
