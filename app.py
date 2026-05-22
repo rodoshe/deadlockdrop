@@ -1,5 +1,6 @@
 from flask_mail import Mail, Message
 import secrets
+import os
 
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
@@ -46,23 +47,16 @@ def init_db():
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL
+                email TEXT,
+                password TEXT NOT NULL,
+                reset_token TEXT
             )
         ''')
         conn.execute('''
             CREATE TABLE IF NOT EXISTS votes (
-                user_id INTEGER NOT NULL,
+                user_id TEXT NOT NULL,
                 feature_id INTEGER NOT NULL,
                 PRIMARY KEY (user_id, feature_id)
-            )
-        ''')
-        conn.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL,
-                reset_token TEXT
             )
         ''')
         conn.commit()
@@ -133,8 +127,7 @@ def submit():
 @app.route('/upvote/<int:id>')
 def upvote(id):
     db = get_db()
-    # use IP address to track votes for logged out users
-    voter_id = session.get('user_id') or request.remote_addr
+    voter_id = str(session.get('user_id') or request.remote_addr)
     already_voted = db.execute(
         'SELECT 1 FROM votes WHERE user_id = ? AND feature_id = ?', (voter_id, id)
     ).fetchone()
@@ -199,7 +192,7 @@ def forgot():
                 conn.commit()
             reset_url = url_for('reset_password', token=token, _external=True)
             msg = Message('DeadlockDrop — Reset Your Password',
-                sender='your_gmail@gmail.com',
+                sender='deadlockdrop@gmail.com',
                 recipients=[email])
             msg.body = f'Click the link to reset your password:\n\n{reset_url}\n\nIf you did not request this, ignore this email.'
             mail.send(msg)
@@ -257,7 +250,7 @@ def profile():
         JOIN votes v ON f.id = v.feature_id
         WHERE v.user_id = ?
         ORDER BY f.votes DESC
-    ''', (user_id,)).fetchall()
+    ''', (str(user_id),)).fetchall()
     comments = db.execute(
         'SELECT * FROM comments WHERE username = ? ORDER BY created_at DESC', (session['username'],)
     ).fetchall()
@@ -314,6 +307,7 @@ def edit_feature(id):
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 @app.route('/roadmap')
 def roadmap():
     db = get_db()
@@ -321,12 +315,8 @@ def roadmap():
     planned = db.execute('SELECT * FROM features WHERE status = "planned" ORDER BY votes DESC').fetchall()
     added = db.execute('SELECT * FROM features WHERE status = "added" ORDER BY votes DESC').fetchall()
     return render_template('roadmap.html', requested=requested, planned=planned, added=added)
-    
+
+init_db()
+
 if __name__ == '__main__':
-    init_db()
-    app.run(debug=True)
-    
-import os
-if __name__ == '__main__':
-    init_db()
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
